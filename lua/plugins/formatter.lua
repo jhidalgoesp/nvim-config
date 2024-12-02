@@ -27,21 +27,21 @@ return {
 								return nil
 							end
 
-							-- Full specification of configurations is down below and in Vim help
-							-- files
-							return {
-								exe = "stylua",
-								args = {
-									"--search-parent-directories",
-									"--stdin-filepath",
-									util.escape_path(util.get_current_buffer_file_path()),
-									"--",
-									"-",
-								},
-								stdin = true,
-							}
-						end,
-					},
+              -- Full specification of configurations is down below and in Vim help
+              -- files
+              return {
+                exe = "stylua",
+                args = {
+                  "--search-parent-directories",
+                  "--stdin-filepath",
+                  util.escape_path(util.get_current_buffer_file_path()),
+                  "--",
+                  "-",
+                },
+                stdin = true,
+              }
+            end,
+          },
           javascript = {
             require("formatter.filetypes.javascript").prettier,
           },
@@ -64,31 +64,32 @@ return {
             require("formatter.filetypes.css").prettier,
           },
           php = {
-            -- You can add custom PHP formatting here if needed
             function()
               return {
-                exe = "prettier",
+                exe = './node_modules/.bin/prettier',
                 args = {
-                  "--stdin-filepath",
-                  vim.fn.shellescape(vim.api.nvim_buf_get_name(0)),
-                  "--parser",
-                  "php",
+                  '--stdin-filepath',
+                  vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)),
+                  '--config',
+                  vim.fn.getcwd() .. '/.prettierrc.json',
+                  '--plugin=@prettier/plugin-php',
+                  '--parser=php'
                 },
-                stdin = true,
+                stdin = true
               }
-            end,
+            end
           },
-					-- Use the special "*" filetype for defining formatter configurations on
-					-- any filetype
-					["*"] = {
-						-- "formatter.filetypes.any" defines default configurations for any
-						-- filetype
-						require("formatter.filetypes.any").remove_trailing_whitespace,
-						-- Remove trailing whitespace without 'sed'
-						-- require("formatter.filetypes.any").substitute_trailing_whitespace,
-					},
-				},
-			})
-		end,
-	},
+          -- Use the special "*" filetype for defining formatter configurations on
+          -- any filetype
+          ["*"] = {
+            -- "formatter.filetypes.any" defines default configurations for any
+            -- filetype
+            require("formatter.filetypes.any").remove_trailing_whitespace,
+            -- Remove trailing whitespace without 'sed'
+            -- require("formatter.filetypes.any").substitute_trailing_whitespace,
+          },
+        },
+      })
+    end,
+  },
 }
