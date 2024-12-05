@@ -42,6 +42,16 @@ return {
               }
             end,
           },
+          go = {
+            -- Use gofmt for Go files
+            function()
+              return {
+                exe = "gofmt",
+                args = {},
+                stdin = true,
+              }
+            end,
+          },
           javascript = {
             require("formatter.filetypes.javascript").prettier,
           },
