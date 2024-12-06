@@ -21,17 +21,6 @@ return {
       -- Initialize dapui
       dapui.setup()
 
-      -- Configure DAP UI listeners
-      dap.listeners.after.event_initialized["dapui_config"] = function()
-        dapui.open()
-      end
-      dap.listeners.before.event_terminated["dapui_config"] = function()
-        dapui.close()
-      end
-      dap.listeners.before.event_exited["dapui_config"] = function()
-        dapui.close()
-      end
-
       -- Keymaps
       vim.keymap.set('n', '<leader>dt', dapui.toggle, { desc = "Toggle DAP UI" })
       vim.keymap.set('n', '<F5>', dap.continue, { desc = "DAP Continue" })
